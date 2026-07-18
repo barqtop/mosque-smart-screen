@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>دليل تشغيل وإعداد منظومة مواقيت الصلاة</title>
+    <style>
+        :root {
+            --primary: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #0f172a;
+            --success: #059669;
+            --success-light: #ecfdf5;
+            --warning: #d97706;
+            --warning-light: #fffbeb;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --muted: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 50px 20px;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* الهيدر الرئيسي */
+        .main-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 24px;
+            box-shadow: 0 15px 30px rgba(3, 105, 161, 0.2);
+        }
+
+        .main-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.4rem;
+            font-weight: 800;
+        }
+
+        .main-header .subtitle {
+            color: #bae6fd;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        /* نظام البطاقات */
+        .step-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        /* الشريط الجانبي الملون لكل بطاقة لتمييزها */
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 6px;
+            background: var(--primary);
+        }
+
+        .step-card.success-card::before { background: var(--success); }
+        .step-card.warning-card::before { background: var(--warning); }
+
+        /* ترويسة البطاقة */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #f1f5f9;
+            padding-bottom: 15px;
+        }
+
+        .step-number {
+            background: var(--primary-light);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .success-card .step-number {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .card-title {
+            color: var(--secondary);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* القوائم والفقرات داخل البطاقات */
+        ol, ul {
+            padding-right: 20px;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        li strong {
+            color: var(--secondary);
+        }
+
+        .highlight-text {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: Consolas, monospace;
+            font-size: 0.95rem;
+        }
+
+        /* صناديق التنبيهات الداخلية المشابهة للبطاقات */
+        .inner-alert {
+            margin-top: 15px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .inner-alert.info {
+            background-color: var(--primary-light);
+            color: #0369a1;
+        }
+
+        .inner-alert.warning {
+            background-color: var(--warning-light);
+            color: #78350f;
+        }
+
+        /* التذييل */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 1rem;
+            color: var(--muted);
+            border-top: 1px solid #e2e8f0;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- الهيدر الرائع -->
+        <div class="main-header">
+            <h1>📑 دليل استخدام منظومة المواقيت</h1>
+            <div class="subtitle">خطوات تهيئة وتشغيل الشاشة الذكية للمسجد بكل سهولة ويسر</div>
+        </div>
+
+        <!-- البطاقة الأولى: قاعدة البيانات -->
+        <div class="step-card">
+            <div class="card-header">
+                <span class="step-number">1</span>
+                <h2 class="card-title">📁 خطوة البداية: استيراد وتجهيز مواقيت الدولة</h2>
+            </div>
+            <p style="margin-top:0;">قبل البدء، يجب تفعيل قاعدة البيانات الخاصة بالدولة المتواجد بها المسجد:</p>
+            <ol>
+                <li>افتح <strong>المجلد الرئيسي</strong> للمشروع على جهاز الكمبيوتر الخاص بك.</li>
+                <li>ادخل إلى مجلد يحمل اسم <strong style="color: var(--primary);">"أرشيف الدول"</strong>.</li>
+                <li>انسخ ملف الدولة المطلوبة (مثال: <span class="highlight-text">uae.js</span> أو <span class="highlight-text">saudi.js</span>).</li>
+                <li>ارجع إلى <strong>المجلد الرئيسي</strong>، وقم بعملية <strong>اللصق</strong> هناك.</li>
+                <li><strong>تنبيه هام جداً:</strong> احذف ملف المواقيت القديم إن وجد، ثم قم بإعادة تسمية الملف الجديد ليصبح باسمه الرسمي والثابت: <span class="highlight-text">prayers.js</span></li>
+            </ol>
+        </div>
+
+        <!-- البطاقة الثانية: لوحة التحكم -->
+        <div class="step-card success-card">
+            <div class="card-header">
+                <span class="step-number">2</span>
+                <h2 class="card-title">🎛️ خطوة الضبط: لوحة التحكم الذكية</h2>
+            </div>
+            <ol>
+                <li>قم بفتح ملف <span class="highlight-text">control-panel.html</span> عبر متصفح الكمبيوتر.</li>
+                <li>ستقوم اللوحة بقراءة ملف الدولة تلقائياً وعرض المدن التابعة لها بشكل فوري.</li>
+                <li>اختر <strong>المدينة</strong>، ثم اكتب <strong>اسم المسجد والمنطقة</strong> بدقة.</li>
+                <li>اضبط <strong>دقائق الانتظار لإقامة الصلاة</strong> وفروق التوقيت العامة إن وُجدت.</li>
+                <li>اضغط على زر <strong style="color: var(--success);">"حفظ الإعدادات وتوليد الملف الذكي"</strong>.</li>
+            </ol>
+            <div class="inner-alert info">
+                💡 <strong>ماذا يحدث الآن؟</strong> سيقوم المتصفح تلقائياً بتحميل ملف صغير الحجم يسمى <span class="highlight-text">auto-config.js</span>. هذا الملف يحتوي على كامل برمجيات خياراتك التي قمت بضبطها.
+            </div>
+        </div>
+
+        <!-- ... البطاقة الثالثة: النقل للفلاشة ... -->
+        <div class="step-card">
+            <div class="card-header">
+                <span class="step-number">3</span>
+                <h2 class="card-title">💾 خطوة الحفظ: النقل إلى الذاكرة (USB)</h2>
+            </div>
+            <p style="margin-top: 0;">قم بنسخ الملفات الأربعة الأساسية التالية، وضعها معاً داخل <strong>مجلد واحد مشترك</strong> على الفلاش ميموري:</p>
+            <ul style="list-style-type: square;">
+                <li><span class="highlight-text">index.html</span> (شاشة العرض الموحدة والمتجاوبة التي تظهر للمصلين).</li>
+                <li><span class="highlight-text">auto-config.js</span> (الملف الذكي الذي قمت بتحميله من لوحة التحكم في الخطوة السابقة).</li>
+                <li><span class="highlight-text">prayers.js</span> (ملف مواقيت الصلوات السنوي الذي قمت بنسخه وتعديله في الخطوة الأولى).</li>
+                <li><span class="highlight-text">bg-islamic.jpg</span> (الخلفية الإسلامية الأنيقة المخصصة لشاشة المسجد).</li>
+            </ul>
+        </div>
+
+        <!-- البطاقة الرابعة: الشاشة والتلفزيون -->
+        <div class="step-card warning-card">
+            <div class="card-header">
+                <span class="step-number">4</span>
+                <h2 class="card-title">📺 الخطوة النهائية: التشغيل على شاشة المسجد</h2>
+            </div>
+            <ol>
+                <li>ضع الفلاش ميموري (USB) في المكان المخصص خلف شاشة التلفزيون الذكية بالمسجد.</li>
+                <li>باستخدام ريموت الشاشة، افتح <strong>متصفح الويب الافتراضي</strong> (Web Browser).</li>
+                <li>ادخل إلى ملفات الفلاشة، وافتح ملف <span class="highlight-text">index.html</span> لتنطلق الشاشة بنجاح.</li>
+            </ol>
+            <div class="inner-alert warning">
+                📌 <strong>ميزة التجاوب المطلق:</strong> الشاشة مبرمجة برمجياً لتعمل بالترتيب العمودي المتناسق. مهما كان حجم التلفزيون أو قمت بعمل تكبير وتصغير (Zoom)، ستتوسع الأبعاد والخطوط تلقائياً لتملأ الشاشة بالكامل دون أي تداخل أو خروج للنصوص.
+            </div>
+        </div>
+
+        <!-- التذييل والوقف الخيري المطور -->
+        <div class="footer">
+            <p>✨ المنظومة كاملة وقف خيري لوجه الله تعالى ومجانية بالكامل.. نسألكم صالح الدعاء بالرحمة والمغفرة لروح غالية ومرحومة.</p>
+            <div style="margin-top: 15px;">
+                <a href="https://mosque-clocks-v1.blogspot.com" target="_blank" style="color: var(--primary); font-weight: bold; text-decoration: none; background: #e0f2fe; padding: 8px 20px; border-radius: 50px; display: inline-block; box-shadow: 0 4px 10px rgba(3,105,161,0.1);">
+                    🌐 زيارة الموقع الرسمي للمنظومة وتحميل تحديثات الدول
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

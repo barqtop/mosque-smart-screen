@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم الذكية - منظومة مواقيت الصلاة</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --bg-page: #f1f5f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --accent: #f0f9ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 30px 15px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-0: 0;
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-size: 0.95rem;
+        }
+
+        /* تصميم البطاقات الاحترافي */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .field-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            margin-bottom: 8px;
+            background: var(--accent);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-right: 3px solid var(--primary);
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        /* شبكة أوقات الإقامة */
+        .grid-times {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (min-width: 480px) {
+            .grid-times {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .time-box {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .time-box label {
+            text-align: center;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .time-box input {
+            text-align: center;
+        }
+
+        /* أزرار الإجراءات */
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(2, 132, 199, 0.2);
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 25px;
+            line-height: 1.5;
+        }
+    </style>
+    
+    <!-- استدعاء ملفات المشروع البرمجية -->
+    <script src="prayers.js"></script>
+    <script src="auto-config.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>⚙️ لوحة إعدادات المسجد والمواقيت</h1>
+        <p>تجهيز وتعديل بيانات المنظومة بسهولة قبل نقلها للفلاشة (USB)</p>
+    </div>
+
+    <!-- البطاقة الأولى: الموقع والمنطقة -->
+    <div class="card">
+        <div class="card-title">📍 أولاً: الموقع الجغرافي والمدينة</div>
+        
+        <div class="form-group">
+            <label>🏳️ اسم الدولة الحالي:</label>
+            <input type="text" id="countryDisplay" readonly style="background: #e2e8f0; color: #475569; cursor: not-allowed; font-weight: bold;">
+            <div class="field-desc">يتم التعرف على الدولة تلقائياً بناءً على ملف (prayers.js) المستبدل في المجلد.</div>
+        </div>
+
+        <div class="form-group">
+            <label>🏙️ اختر المدينة المعتمدة لمسجدك:</label>
+            <select id="citySelect"></select>
+            <div class="field-desc">هذه القائمة تُجلب تلقائياً من ملف الدولة لمنع أي خطأ إملائي في الحروف.</div>
+        </div>
+    </div>
+
+    <!-- البطاقة الثانية: تسمية المسجد وتعديل الفوارق -->
+    <div class="card">
+        <div class="card-title">🕌 ثانياً: تخصيص المسجد وفارق التوقيت</div>
+        
+        <div class="form-group">
+            <label>✍️ اسم المسجد أو (القرية / الحي):</label>
+            <input type="text" id="mosqueName" placeholder="مثال: جامع التوحيد - قرية..">
+            <div class="field-desc">الاسم الذي سيظهر في الشريط العلوي للشاشة الرئيسية للتلفزيون أمام المصلين.</div>
+        </div>
+
+        <div class="form-group">
+            <label>⏱️ فارق التوقيت الإجمالي (بالدقائق):</label>
+            <input type="number" id="timeOffset" value="0">
+            <div class="field-desc">
+                <strong>شرح عملي:</strong> إذا كانت قريتك تتبع مدينة رئيسية ولكن أذان قريتك يختلف عنها عدل التالي:<br>
+                • قريتك <strong>تسبق</strong> المدينة بدقيقتين؟ اكتب: <span style="color:green; font-weight:bold;">2</span><br>
+                • قريتك <strong>تتأخر</strong> عن المدينة بثلاث دقائق؟ اكتب: <span style="color:red; font-weight:bold;">-3</span><br>
+                • قريتك <strong>مطابقة تماماً</strong> للمدينة الرئيسية؟ اتركها: <strong>0</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- البطاقة الثالثة: مواقيت الانتظار للإقامة -->
+    <div class="card">
+        <div class="card-title">⏳ ثالثاً: دقائق الانتظار لإقامة الصلاة</div>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top:-10px; margin-bottom:15px;">حدد المدة الزمنية بالدقائق بين الأذان والإقامة لكل صلاة ليقوم العداد الذكي بحسابها تلقائياً.</p>
+        
+        <div class="grid-times">
+            <div class="time-box"><label>الفجر</label><input type="number" id="fajr"></div>
+            <div class="time-box"><label>الظهر</label><input type="number" id="dhuhr"></div>
+            <div class="time-box"><label>العصر</label><input type="number" id="asr"></div>
+            <div class="time-box"><label>المغرب</label><input type="number" id="maghrib"></div>
+            <div class="time-box"><label>العشاء</label><input type="number" id="isha"></div>
+        </div>
+    </div>
+
+    <!-- زر الحفظ والتوليد -->
+    <button class="btn-submit" onclick="generateConfigAndDownload()">💾 حفظ الإعدادات وتحديث ملف الفلاشة</button>
+
+    <div class="footer-note">
+        💡 <strong>خطوة هامة بعد الضغط على حفظ:</strong> سيقوم المتصفح بتحميل ملف باسم <span style="font-family: monospace; font-weight: bold; color: #b91c1c;">auto-config.js</span>.<br>
+        خذ هذا الملف وضعه في المجلد الرئيسي للمشروع ووافق على استبدال الملف القديم، ثم انقل المجلد للفلاشة.
+    </div>
+
+</div>
+
+<script>
+   
+// عند فتح الصفحة، نقرأ ملف prayers.js ونملأ الحقول
+    window.onload = function() {
+        const citySelect = document.getElementById('citySelect');
+        const countryDisplay = document.getElementById('countryDisplay');
+        
+        let detectedCountry = "غير معرف - تأكد من ملف prayers.js";
+
+        if (typeof currentCountryData !== 'undefined') {
+            // ─── التعديل هنا لقراءة المسمى الصحيح من ملفك ───
+            detectedCountry = currentCountryData.country_name || "تم التعرف على ملف الدولة بنجاح";
+            countryDisplay.value = detectedCountry;
+
+            // تعبئة المدن في القائمة المنسدلة
+            if (currentCountryData.cities) {
+                for (let code in currentCountryData.cities) {
+                    let option = document.createElement('option');
+                    option.value = code;
+                    option.text = currentCountryData.cities[code].name || currentCountryData.cities[code];
+                    citySelect.appendChild(option);
+                }
+            }
+        } else {
+            countryDisplay.value = detectedCountry;
+        }
+
+        // جلب الإعدادات المخزنة افتراضياً من ملف auto-config.js
+        if (typeof mosqueSetup !== 'undefined') {
+            document.getElementById('mosqueName').value = mosqueSetup.mosqueName || "";
+            document.getElementById('citySelect').value = mosqueSetup.cityCode || "";
+            document.getElementById('timeOffset').value = mosqueSetup.timeOffset || 0;
+            document.getElementById('fajr').value = mosqueSetup.fajr || 20;
+            document.getElementById('dhuhr').value = mosqueSetup.dhuhr || 15;
+            document.getElementById('asr').value = mosqueSetup.asr || 15;
+            document.getElementById('maghrib').value = mosqueSetup.maghrib || 10;
+            document.getElementById('isha').value = mosqueSetup.isha || 15;
+        }
+    };
+
+    function generateConfigAndDownload() {
+        const citySelect = document.getElementById('citySelect');
+        
+        // التحقق من وجود مدن مختارة
+        if(citySelect.options.length === 0) {
+            alert("خطأ: لم يتم التعرف على أي مدن! يرجى التأكد من تسمية ملف الدولة باسم prayers.js بشكل صحيح.");
+            return;
+        }
+
+        const code = citySelect.value;
+        const name = citySelect.options[citySelect.selectedIndex].text;
+        const country = document.getElementById('countryDisplay').value;
+
+        // صياغة نص الكود البرمجي لملف auto-config.js بدقة متناهية
+        const configText = `// ⚙️ هذا الملف يتم تحديثه تلقائياً عبر لوحة التحكم ولا داعي لفتحه يدوياً
+const mosqueSetup = {
+    cityCode: "${code}",
+    cityName: "${name}",
+    countryName: "${country}",
+    mosqueName: "${document.getElementById('mosqueName').value}",
+    timeOffset: ${parseInt(document.getElementById('timeOffset').value) || 0},
+    fajr: ${parseInt(document.getElementById('fajr').value) || 20},
+    dhuhr: ${parseInt(document.getElementById('dhuhr').value) || 15},
+    asr: ${parseInt(document.getElementById('asr').value) || 15},
+    maghrib: ${parseInt(document.getElementById('maghrib').value) || 10},
+    isha: ${parseInt(document.getElementById('isha').value) || 15}
+};
+
+(function() {
+    const dataToSave = {
+        city: mosqueSetup.cityCode,
+        cityName: mosqueSetup.cityName,
+        countryName: mosqueSetup.countryName,
+        villageName: mosqueSetup.mosqueName,
+        timeOffset: mosqueSetup.timeOffset,
+        fajr: mosqueSetup.fajr,
+        dhuhr: mosqueSetup.dhuhr,
+        asr: mosqueSetup.asr,
+        maghrib: mosqueSetup.maghrib,
+        isha: mosqueSetup.isha
+    };
+    localStorage.setItem('mosque_settings', JSON.stringify(dataToSave));
+})();`;
+
+        // عملية التحميل التلقائي للملف المستبدل
+        const blob = new Blob([configText], { type: "text/javascript;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "auto-config.js";
+        link.click();
+    }
+</script>
+
+</body>
+</html>
