@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة تحميل مواقيت المساجد</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; text-align: center; padding: 80px 20px; background: #f8fafc; color: #334155; direction: rtl; }
+        .card { max-width: 450px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .icon { font-size: 50px; margin-bottom: 15px; }
+        h2 { color: #0f172a; margin-bottom: 10px; font-size: 20px; }
+        p { color: #64748b; font-size: 14px; margin-bottom: 25px; line-height: 1.6; }
+        .loader { border: 4px solid #cbd5e1; border-top: 4px solid #059669; border-radius: 50%; width: 35px; height: 35px; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
+        .success-mark { font-size: 40px; color: #059669; display: none; margin-bottom: 20px; animation: scaleUp 0.3s ease; }
+        .back-btn { display: inline-block; background-color: #0369a1; color: #ffffff !important; text-decoration: none !important; padding: 12px 30px; border-radius: 25px; font-size: 14px; font-weight: 700; transition: all 0.2s; opacity: 0.6; pointer-events: none; }
+        .back-btn.active { opacity: 1; pointer-events: auto; background-color: #059669; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes scaleUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="icon">🕌</div>
+        <div id="loader" class="loader"></div>
+        <div id="success" class="success-mark">✓</div>
+        
+        <h2 id="title">جاري تحضير ملف المواقيت...</h2>
+        <p id="status">الرجاء الانتظار لثوانٍ حتى يتم سحب البيانات وتنزيلها تلقائياً.</p>
+        
+        <!-- زر العودة للمدونة (يتفعل ويتحول للأخضر بعد التنزيل) -->
+        <a href="javascript:history.back()" id="backBtn" class="back-btn">رجوع للمدونة ←</a>
+    </div>
+
+    <script>
+        // 1. قراءة اسم الدولة المطلوبة من رابط المدونة تلقائياً
+        const urlParams = new URLSearchParams(window.location.search);
+        const country = urlParams.get('file'); // سيأخذ مثل: Syria-prayers
+        const countryAr = urlParams.get('name') || "الدولة";
+
+        if (country) {
+            document.title = `تحميل ملف مواقيت - ${countryAr}`;
+            document.getElementById('title').innerText = `جاري تحميل ملف مواقيت (${countryAr})`;
+
+            // 2. رابط جلب الملف الأصلي من مجلد الأرشيف
+            const fileUrl = `https://raw.githubusercontent.com/barqtop/mosque-smart-screen/main/Archives/${country}.js`;
+
+            // 3. جلب الملف وتحميله برمجياً رغماً عن المتصفح
+            fetch(fileUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error();
+                    return response.text();
+                })
+                .then(text => {
+                    const blob = new Blob([text], { type: 'application/javascript' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${country}.js`; // ينزل بالامتداد الأصلي الصحيح
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    // 4. تحديث الواجهة بعد اكتمال التحميل بنجاح
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('success').style.display = 'block';
+                    document.getElementById('title').innerText = 'تم التحميل بنجاح!';
+                    document.getElementById('status').innerText = 'تم حفظ الملف في جهازك بنجاح. يمكنك الآن الضغط على زر الرجوع للمدونة.';
+                    
+                    const backBtn = document.getElementById('backBtn');
+                    backBtn.classList.add('active');
+                    backBtn.innerText = 'العودة للمدونة ←';
+                })
+                .catch(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('title').innerText = 'عذراً، حدث خطأ!';
+                    document.getElementById('status').innerText = 'لم نتمكن من العثور على ملف هذه الدولة، تأكد من رفعه في جيت هب أولاً.';
+                    const backBtn = document.getElementById('backBtn');
+                    backBtn.classList.add('active');
+                    backBtn.style.backgroundColor = '#ef4444';
+                });
+        }
+    </script>
+</body>
+</html>
