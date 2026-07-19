@@ -1,9 +1,9 @@
 // ⚙️ هذا الملف يتم تحديثه تلقائياً عبر لوحة التحكم ولا داعي لفتحه يدوياً
 const mosqueSetup = {
-    cityCode: "abu-dhabi",
-    cityName: "أبوظبي",
+    cityCode: "dubai",
+    cityName: "دبي",
     countryName: "الإمارات العربية المتحدة",
-    mosqueName: "مسجد بسمة البسمه",
+    mosqueName: "مسجد التوحيد",
     timeOffset: 0,
     fajr: 20,
     dhuhr: 15,
