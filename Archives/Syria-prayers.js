@@ -1,6 +1,6 @@
 const currentCountryData = {
     "country_code": "Syria",
-    "country_name": "سوريا",
+    "country_name": "الجمهورية العربية السورية",
     "cities": {
         "Damascus": {
             "name": "دمشق",
